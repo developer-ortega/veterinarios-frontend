@@ -1,31 +1,38 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import Alerta from "../components/Alerta";
 
 const Registrar = () => {
 
-  const [ nombre, setNombre ] = useState('');
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ repetirPassword, setRepetirPassword ] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repetirPassword, setRepetirPassword] = useState('');
+
+  const [alerta, setAlerta] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if([nombre, email, password, repetirPassword].includes('')){
-      
+    if ([nombre, email, password, repetirPassword].includes('')) {
+      setAlerta({ msg: "Hay campos vacíos", error: true })
       return;
     }
 
-    if(password !== repetirPassword){
-
+    if (password !== repetirPassword) {
+      setAlerta({ msg: "Los passwords no son iguales", error: true })
       return;
     }
 
-    if(password.length < 6) {
-
+    if (password.length < 6) {
+      setAlerta({ msg: "El password debe ser mínimo 6 caracteres", error: true })
       return;
     }
+
+    setAlerta({})
   }
+
+  const { msg } = alerta
 
   return (
     <>
@@ -33,6 +40,11 @@ const Registrar = () => {
         <h1 className="text-indigo-600 font-black text-6xl">Crea tu Cuenta y Administra {""} <span className="text-black">Tus Pacientes</span></h1>
       </div>
       <div className="mt-20 md:mt-5 shadow-lg px-5 py-10 rounded-xl bg-white">
+        {
+          msg && <Alerta 
+            alerta={alerta}
+          />
+        }
         <form onSubmit={handleSubmit}>
           <div className="my-5">
             <label
