@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import Alerta from "../components/Alerta";
+import axios from "axios";
 
 const Registrar = () => {
 
@@ -11,7 +12,7 @@ const Registrar = () => {
 
   const [alerta, setAlerta] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if ([nombre, email, password, repetirPassword].includes('')) {
@@ -30,6 +31,21 @@ const Registrar = () => {
     }
 
     setAlerta({})
+
+    // Crear el usuario en la api
+    try {
+      const url ="http://localhost:8000/api/veterinarios"
+      await axios.post(url, {nombre, email, password})
+      setAlerta({
+        msg: "Creado Correctamente, Revisa tu Email",
+        error: false
+      })
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data,
+        error: true
+      })
+    }
   }
 
   const { msg } = alerta
@@ -99,7 +115,7 @@ const Registrar = () => {
               placeholder="Repite tu password"
               className="border w-full p-3 mt-3 bg-gray-50 rounded-xl"
               value={repetirPassword}
-              onChange={setRepetirPassword}
+              onChange={e => setRepetirPassword(e.target.value)}
             />
           </div>
           <input
