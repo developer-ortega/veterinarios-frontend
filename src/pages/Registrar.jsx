@@ -34,7 +34,7 @@ const Registrar = () => {
 
     // Crear el usuario en la api
     try {
-      const url ="http://localhost:8000/api/veterinarios"
+      const url =`${import.meta.env.VITE_BACKEND_URL}/api/veterinarios`
       await axios.post(url, {nombre, email, password})
       setAlerta({
         msg: "Creado Correctamente, Revisa tu Email",
