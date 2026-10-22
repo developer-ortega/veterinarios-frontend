@@ -15,7 +15,7 @@ const Formulario = () => {
   const { guardarPaciente, paciente } = usePacientes()
 
   useEffect(() => {
-    if(paciente?.nombre){
+    if (paciente?.nombre) {
       setNombre(paciente.nombre)
       setPropietario(paciente.propietario)
       setEmail(paciente.email)
@@ -37,8 +37,16 @@ const Formulario = () => {
       return;
     }
 
-    setAlerta({})
-    guardarPaciente({ nombre, propietario, email, fecha, sintomas, id})
+    guardarPaciente({ nombre, propietario, email, fecha, sintomas, id })
+    setAlerta({
+      msg: 'Guardado Correctamente'
+    })
+    setNombre('')
+    setPropietario('')
+    setEmail('')
+    setFecha('')
+    setSintomas('')
+    setId('')
   }
 
   const { msg } = alerta
@@ -47,7 +55,7 @@ const Formulario = () => {
     <>
 
       <h2 className="font-black text-3xl text-center">Administrador de Pacientes</h2>
-    
+
       <p className="text-xl mt-5 mb-10 text-center">
         Añade tus pacientes y {''}
         <span className="text-indigo-600 font-bold">Administralos</span>
