@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Alerta from "./Alerta"
+import usePacientes from "../hooks/usePacientes";
 
 const Formulario = () => {
 
@@ -10,6 +11,7 @@ const Formulario = () => {
   const [sintomas, setSintomas] = useState('');
 
   const [alerta, setAlerta] = useState({})
+  const { pacientes } = usePacientes()
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ const Formulario = () => {
         msg: 'Todos los campos son obligatorios',
         error: true
       })
+      return;
     }
   }
 
