@@ -3,7 +3,7 @@ import clienteAxios from '../config/axios'
 
 const AuthContext = createContext()
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
 
     const [cargando, setCargando] = useState(true)
     const [auth, setAuth] = useState({})
@@ -11,13 +11,13 @@ const AuthProvider = ({children}) => {
     useEffect(() => {
         const autenticarUsuario = async () => {
             const token = localStorage.getItem('token')
-            if(!token){
+            if (!token) {
                 setCargando(false)
                 return;
             }
 
             const config = {
-                headers:{
+                headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer: ${token}`
                 }
@@ -40,11 +40,34 @@ const AuthProvider = ({children}) => {
         setAuth({})
     }
 
-    const actualizarPerfil = datos => {
+    const actualizarPerfil = async datos => {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            setCargando(false)
+            return;
+        }
 
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer: ${token}`
+            }
+        }
+        try {
+            const url = `/veterinarios/perfil/${datos._id}`
+            const { data } = await clienteAxios.put(url, datos, config)
+            return {
+                msg: "Almacenado correctamente..."
+            }
+        } catch (error) {
+            return {
+                msg: error.response.data.msg,
+                error: true
+            }
+        }
     }
 
-    return(
+    return (
         <AuthContext.Provider
             value={{
                 auth, setAuth, cargando, cerrarSesion, actualizarPerfil
