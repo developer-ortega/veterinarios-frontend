@@ -41,7 +41,7 @@ const Registrar = () => {
       })
     } catch (error) {
       setAlerta({
-        msg: error.response.data,
+        msg: error.response?.data?.msg ?? "No se puedo conectar con el servidor",
         error: true
       })
     }
